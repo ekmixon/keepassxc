@@ -41,10 +41,11 @@ keysymMap = {}
 
 with open(keysymdef, "r") as fid:
     for line in fid:
-        match = re.search(r'0x([0-9a-fA-F]+)\s+/\* U\+([0-9a-fA-F]+)', line)
-        if match:
-            keysym = int(match.group(1), 16)
-            unicodeVal = int(match.group(2), 16)
+        if match := re.search(
+            r'0x([0-9a-fA-F]+)\s+/\* U\+([0-9a-fA-F]+)', line
+        ):
+            keysym = int(match[1], 16)
+            unicodeVal = int(match[2], 16)
 
             # ignore 1:1 mappings
             if 0x0020 <= keysym <= 0x007e or 0x00a0 <= keysym <= 0x00ff:
@@ -75,11 +76,11 @@ for idx, val in enumerate(keys, start=1):
     if idx == keyLen:
         print(hexVal)
     elif (idx % cols) == 0:
-        print(hexVal + ",")
+        print(f"{hexVal},")
     elif ((idx - 1) % cols) == 0:
-        print("    " + hexVal + ", ", end="")
+        print(f"    {hexVal}, ", end="")
     else:
-        print(hexVal + ", ", end="")
+        print(f"{hexVal}, ", end="")
 print("};")
 
 print()
@@ -93,9 +94,9 @@ for idx, val in enumerate(values, start=1):
     if idx == valuesLen:
         print(hexVal)
     elif (idx % cols) == 0:
-        print(hexVal + ",")
+        print(f"{hexVal},")
     elif ((idx - 1) % cols) == 0:
-        print("    " + hexVal + ", ", end="")
+        print(f"    {hexVal}, ", end="")
     else:
-        print(hexVal + ", ", end="")
+        print(f"{hexVal}, ", end="")
 print("};")

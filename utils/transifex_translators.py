@@ -66,14 +66,13 @@ if not os.path.exists("languages.json"):
     exit(0)
 
 with open("languages.json") as json_file:
-    output = open("translators.html", "w", encoding="utf-8")
-    languages = json.load(json_file)
-    for lang in languages:
-        code = lang["language_code"]
-        if code not in LANGS:
-            print("WARNING: Could not find language code:", code)
-            continue
-        translators = ", ".join(sorted(lang["reviewers"] + lang["translators"], key=str.casefold))
-        output.write(TEMPLATE.format(LANGS[code], translators))
-    output.close()
+    with open("translators.html", "w", encoding="utf-8") as output:
+        languages = json.load(json_file)
+        for lang in languages:
+            code = lang["language_code"]
+            if code not in LANGS:
+                print("WARNING: Could not find language code:", code)
+                continue
+            translators = ", ".join(sorted(lang["reviewers"] + lang["translators"], key=str.casefold))
+            output.write(TEMPLATE.format(LANGS[code], translators))
     print("Language translators written to 'translators.html'!")
